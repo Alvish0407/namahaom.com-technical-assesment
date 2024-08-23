@@ -16,4 +16,5 @@ class AppIcons {
   static const String bagFilled = '$path/bag-filled.svg';
   static const String locationFilled = '$path/location-filled.svg';
   static const String search = '$path/search.svg';
+  static const String star = '$path/star.svg';
 }

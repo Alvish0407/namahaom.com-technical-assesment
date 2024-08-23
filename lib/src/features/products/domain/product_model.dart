@@ -11,6 +11,7 @@ class Product with _$Product {
     required int id,
     required String title,
     required double price,
+    required double rating,
     required String category,
     required String description,
     @HttpUriConverter() Uri? thumbnail,

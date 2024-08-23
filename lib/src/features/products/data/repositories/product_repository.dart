@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../domain/category_model.dart';
 import '../../domain/product_model.dart';
 import '../datasource/remote_product_datasource.dart';
 
@@ -24,7 +25,7 @@ class ProductRepository {
     );
   }
 
-  Future<List<String>> getCategories({CancelToken? cancelToken}) async {
+  Future<List<Category>> getCategories({CancelToken? cancelToken}) async {
     return remoteProductDatasource.getCategories(cancelToken: cancelToken);
   }
 }

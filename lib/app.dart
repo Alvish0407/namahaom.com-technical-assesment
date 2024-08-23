@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,11 +32,6 @@ class _MainApp extends ConsumerWidget {
         routerConfig: goRouter,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightThemeData(context),
-        scrollBehavior: ScrollConfiguration.of(context).copyWith(
-          physics: AlwaysScrollableScrollPhysics(
-            parent: Platform.isIOS ? const BouncingScrollPhysics() : const ClampingScrollPhysics(),
-          ),
-        ),
       ),
     );
   }

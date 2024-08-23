@@ -11,6 +11,7 @@ _$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       price: (json['price'] as num).toDouble(),
+      rating: (json['rating'] as num).toDouble(),
       category: json['category'] as String,
       description: json['description'] as String,
       thumbnail:
@@ -23,6 +24,7 @@ Map<String, dynamic> _$$ProductImplToJson(_$ProductImpl instance) =>
       'id': instance.id,
       'title': instance.title,
       'price': instance.price,
+      'rating': instance.rating,
       'category': instance.category,
       'description': instance.description,
       'thumbnail': const HttpUriConverter().toJson(instance.thumbnail),

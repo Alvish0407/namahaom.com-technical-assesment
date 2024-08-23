@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../services/api_client.dart';
 import '../../../../utils/exception_handler.dart';
+import '../../domain/category_model.dart';
 import '../../domain/product_model.dart';
 
 part 'remote_product_datasource.g.dart';
@@ -14,7 +15,7 @@ class RemoteProductDatasource {
   Future<List<Product>> getProducts({CancelToken? cancelToken}) async {
     return handleException<List<Product>>(() async {
       final response = await apiClient.httpClient.get(
-        '/products',
+        '/products?limit=0', // limit=0 to get all items.
         cancelToken: cancelToken,
       );
 
@@ -28,7 +29,7 @@ class RemoteProductDatasource {
   }) async {
     return handleException<List<Product>>(() async {
       final response = await apiClient.httpClient.get(
-        '/products/category/$category',
+        '/products/category/$category?limit=0', // limit=0 to get all items.
         cancelToken: cancelToken,
       );
 
@@ -36,14 +37,14 @@ class RemoteProductDatasource {
     });
   }
 
-  Future<List<String>> getCategories({CancelToken? cancelToken}) async {
-    return handleException<List<String>>(() async {
+  Future<List<Category>> getCategories({CancelToken? cancelToken}) async {
+    return handleException<List<Category>>(() async {
       final response = await apiClient.httpClient.get(
-        '/products/category-list',
+        '/products/categories',
         cancelToken: cancelToken,
       );
 
-      return response.data as List<String>;
+      return (response.data as List).map<Category>((e) => Category.fromJson(e)).toList();
     });
   }
 }

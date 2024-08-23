@@ -21,7 +21,7 @@ return _Product.fromJson(json);
 /// @nodoc
 mixin _$Product {
 
- int get id => throw _privateConstructorUsedError; String get title => throw _privateConstructorUsedError; double get price => throw _privateConstructorUsedError; String get category => throw _privateConstructorUsedError; String get description => throw _privateConstructorUsedError;@HttpUriConverter() Uri? get thumbnail => throw _privateConstructorUsedError; double get discountPercentage => throw _privateConstructorUsedError;
+ int get id => throw _privateConstructorUsedError; String get title => throw _privateConstructorUsedError; double get price => throw _privateConstructorUsedError; double get rating => throw _privateConstructorUsedError; String get category => throw _privateConstructorUsedError; String get description => throw _privateConstructorUsedError;@HttpUriConverter() Uri? get thumbnail => throw _privateConstructorUsedError; double get discountPercentage => throw _privateConstructorUsedError;
 
 
 
@@ -42,7 +42,7 @@ abstract class $ProductCopyWith<$Res>  {
   factory $ProductCopyWith(Product value, $Res Function(Product) then) = _$ProductCopyWithImpl<$Res, Product>;
 @useResult
 $Res call({
- int id, String title, double price, String category, String description,@HttpUriConverter() Uri? thumbnail, double discountPercentage
+ int id, String title, double price, double rating, String category, String description,@HttpUriConverter() Uri? thumbnail, double discountPercentage
 });
 
 
@@ -60,11 +60,12 @@ class _$ProductCopyWithImpl<$Res,$Val extends Product> implements $ProductCopyWi
 
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? price = null,Object? category = null,Object? description = null,Object? thumbnail = freezed,Object? discountPercentage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? price = null,Object? rating = null,Object? category = null,Object? description = null,Object? thumbnail = freezed,Object? discountPercentage = null,}) {
   return _then(_value.copyWith(
 id: null == id ? _value.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _value.title : title // ignore: cast_nullable_to_non_nullable
 as String,price: null == price ? _value.price : price // ignore: cast_nullable_to_non_nullable
+as double,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as double,category: null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
 as String,thumbnail: freezed == thumbnail ? _value.thumbnail : thumbnail // ignore: cast_nullable_to_non_nullable
@@ -81,7 +82,7 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
   factory _$$ProductImplCopyWith(_$ProductImpl value, $Res Function(_$ProductImpl) then) = __$$ProductImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- int id, String title, double price, String category, String description,@HttpUriConverter() Uri? thumbnail, double discountPercentage
+ int id, String title, double price, double rating, String category, String description,@HttpUriConverter() Uri? thumbnail, double discountPercentage
 });
 
 
@@ -96,11 +97,12 @@ class __$$ProductImplCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res, _$Pr
 
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? price = null,Object? category = null,Object? description = null,Object? thumbnail = freezed,Object? discountPercentage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? price = null,Object? rating = null,Object? category = null,Object? description = null,Object? thumbnail = freezed,Object? discountPercentage = null,}) {
   return _then(_$ProductImpl(
 id: null == id ? _value.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _value.title : title // ignore: cast_nullable_to_non_nullable
 as String,price: null == price ? _value.price : price // ignore: cast_nullable_to_non_nullable
+as double,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as double,category: null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
 as String,thumbnail: freezed == thumbnail ? _value.thumbnail : thumbnail // ignore: cast_nullable_to_non_nullable
@@ -116,13 +118,14 @@ as double,
 @JsonSerializable()
 
 class _$ProductImpl  implements _Product {
-  const _$ProductImpl({required this.id, required this.title, required this.price, required this.category, required this.description, @HttpUriConverter() this.thumbnail, required this.discountPercentage});
+  const _$ProductImpl({required this.id, required this.title, required this.price, required this.rating, required this.category, required this.description, @HttpUriConverter() this.thumbnail, required this.discountPercentage});
 
   factory _$ProductImpl.fromJson(Map<String, dynamic> json) => _$$ProductImplFromJson(json);
 
 @override final  int id;
 @override final  String title;
 @override final  double price;
+@override final  double rating;
 @override final  String category;
 @override final  String description;
 @override@HttpUriConverter() final  Uri? thumbnail;
@@ -130,18 +133,18 @@ class _$ProductImpl  implements _Product {
 
 @override
 String toString() {
-  return 'Product(id: $id, title: $title, price: $price, category: $category, description: $description, thumbnail: $thumbnail, discountPercentage: $discountPercentage)';
+  return 'Product(id: $id, title: $title, price: $price, rating: $rating, category: $category, description: $description, thumbnail: $thumbnail, discountPercentage: $discountPercentage)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ProductImpl&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.category, category) || other.category == category)&&(identical(other.description, description) || other.description == description)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&(identical(other.discountPercentage, discountPercentage) || other.discountPercentage == discountPercentage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ProductImpl&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.category, category) || other.category == category)&&(identical(other.description, description) || other.description == description)&&(identical(other.thumbnail, thumbnail) || other.thumbnail == thumbnail)&&(identical(other.discountPercentage, discountPercentage) || other.discountPercentage == discountPercentage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,price,category,description,thumbnail,discountPercentage);
+int get hashCode => Object.hash(runtimeType,id,title,price,rating,category,description,thumbnail,discountPercentage);
 
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
@@ -164,12 +167,12 @@ Map<String, dynamic> toJson() {
 
 
 abstract class _Product implements Product {
-  const factory _Product({required final  int id, required final  String title, required final  double price, required final  String category, required final  String description, @HttpUriConverter() final  Uri? thumbnail, required final  double discountPercentage}) = _$ProductImpl;
+  const factory _Product({required final  int id, required final  String title, required final  double price, required final  double rating, required final  String category, required final  String description, @HttpUriConverter() final  Uri? thumbnail, required final  double discountPercentage}) = _$ProductImpl;
   
 
   factory _Product.fromJson(Map<String, dynamic> json) = _$ProductImpl.fromJson;
 
-@override int get id;@override String get title;@override double get price;@override String get category;@override String get description;@override@HttpUriConverter() Uri? get thumbnail;@override double get discountPercentage;
+@override int get id;@override String get title;@override double get price;@override double get rating;@override String get category;@override String get description;@override@HttpUriConverter() Uri? get thumbnail;@override double get discountPercentage;
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
