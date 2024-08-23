@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../common_widgets/app_loader.dart';
 import '../../../../common_widgets/error_retry_button.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../../../routing/app_router.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
@@ -25,7 +27,7 @@ class HomeScreen extends HookConsumerWidget {
           gapH16,
           _Categories(),
           gapH16,
-          Expanded(child: _ProductsGrid()),
+          Expanded(child: Center(child: _ProductsGrid())),
         ],
       ),
     );
@@ -40,22 +42,27 @@ class _ProductsGrid extends ConsumerWidget {
     final selectedCategory = ref.watch(selectedCategoryProvider);
     final productsAsync = ref.watch(productsProvider(category: selectedCategory));
 
-    return productsAsync.map(
-      loading: (_) => const AppLoader(),
-      error: (error) => Center(child: ErrorRetryButton(error.toString())),
+    return productsAsync.when(
+      loading: () => const AppLoader(),
+      error: (error, _) => Center(child: ErrorRetryButton(error.toString())),
       data: (products) {
-        return GridView.builder(
-          itemCount: products.value.length,
-          padding: const EdgeInsets.all(Sizes.p16),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            childAspectRatio: 0.72,
-            maxCrossAxisExtent: 225,
-            mainAxisSpacing: Sizes.p16,
-            crossAxisSpacing: Sizes.p16,
-          ),
-          itemBuilder: (context, index) {
-            return _ProductCard(products.value[index]);
+        return RefreshIndicator.adaptive(
+          onRefresh: () async {
+            return await ref.refresh(productsProvider(category: selectedCategory).future);
           },
+          child: GridView.builder(
+            itemCount: products.length,
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              childAspectRatio: 0.72,
+              maxCrossAxisExtent: 225,
+              mainAxisSpacing: Sizes.p16,
+              crossAxisSpacing: Sizes.p16,
+            ),
+            itemBuilder: (context, index) {
+              return _ProductCard(products[index]);
+            },
+          ),
         );
       },
     );
@@ -68,60 +75,68 @@ class _ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: context.colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              color: const Color(0xffECDEDB).hardcodedColor,
-              child: CachedNetworkImage(
-                imageUrl: product.thumbnail.toString(),
-                height: 185,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                placeholder: (context, url) => const AppLoader(),
-              ),
-            ),
-          ),
-          gapH8,
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  product.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: () {
+        context.pushNamed(
+          AppRoute.productDetails.name,
+          pathParameters: {'id': product.id.toString()},
+        );
+      },
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                color: const Color(0xffECDEDB).hardcodedColor,
+                child: CachedNetworkImage(
+                  imageUrl: product.thumbnail.toString(),
+                  height: 185,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  placeholder: (context, url) => const AppLoader(),
                 ),
               ),
-              gapW8,
-              Row(
-                children: [
-                  SvgPicture.asset(AppIcons.star),
-                  gapW4,
-                  Text(
-                    product.rating.toString(),
-                    style: TextStyle(color: context.appColors.onSurface2),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          gapH4,
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "\$${product.price}",
-              style: const TextStyle(fontSize: 16).medium,
             ),
-          )
-        ],
+            gapH8,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    product.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                gapW8,
+                Row(
+                  children: [
+                    SvgPicture.asset(AppIcons.star),
+                    gapW4,
+                    Text(
+                      product.rating.toString(),
+                      style: TextStyle(color: context.appColors.onSurface2),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            gapH4,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "\$${product.price}",
+                style: const TextStyle(fontSize: 16).medium,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

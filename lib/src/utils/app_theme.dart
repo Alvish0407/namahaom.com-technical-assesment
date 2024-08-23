@@ -57,7 +57,7 @@ abstract class AppTheme {
       appBarTheme: AppBarTheme(
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
-        titleTextStyle: const TextStyle(fontSize: 20, color: Colors.white).bold,
+        titleTextStyle: const TextStyle(fontSize: 18, color: Color(0xff1f2029)).medium,
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(

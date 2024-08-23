@@ -37,6 +37,17 @@ class RemoteProductDatasource {
     });
   }
 
+  Future<Product> getProductById({CancelToken? cancelToken, required String id}) async {
+    return handleException<Product>(() async {
+      final response = await apiClient.httpClient.get(
+        '/products/$id',
+        cancelToken: cancelToken,
+      );
+
+      return Product.fromJson(response.data);
+    });
+  }
+
   Future<List<Category>> getCategories({CancelToken? cancelToken}) async {
     return handleException<List<Category>>(() async {
       final response = await apiClient.httpClient.get(

@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../utils/extensions.dart';
 import '../../data/repositories/product_repository.dart';
 import '../../domain/category_model.dart';
 import '../../domain/product_model.dart';
@@ -24,6 +25,7 @@ class Products extends _$Products {
   /// Passing [null] will return all products
   @override
   Future<List<Product>> build({Category? category}) {
+    ref.cacheFor(const Duration(minutes: 1));
     if (category == null || category == Category.all()) {
       return ref.watch(productRepositoryProvider).getProducts();
     } else {

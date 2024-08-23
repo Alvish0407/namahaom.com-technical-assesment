@@ -25,6 +25,10 @@ class ProductRepository {
     );
   }
 
+  Future<Product> getProductById({CancelToken? cancelToken, required String id}) async {
+    return remoteProductDatasource.getProductById(id: id, cancelToken: cancelToken);
+  }
+
   Future<List<Category>> getCategories({CancelToken? cancelToken}) async {
     return remoteProductDatasource.getCategories(cancelToken: cancelToken);
   }

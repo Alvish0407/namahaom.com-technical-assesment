@@ -21,7 +21,7 @@ final categoriesProvider =
 );
 
 typedef _$Categories = AutoDisposeAsyncNotifier<List<Category>>;
-String _$productsHash() => r'488bded12a4df76883a01df93e36dc5c48414699';
+String _$productsHash() => r'5cc5df72e759a008b8da6e0aaec35c669b365fb1';
 
 /// Copied from Dart SDK
 class _SystemHash {
