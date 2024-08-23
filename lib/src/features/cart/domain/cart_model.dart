@@ -33,3 +33,7 @@ class CartItem with _$CartItem {
 
   factory CartItem.fromJson(Map<String, dynamic> json) => _$CartItemFromJson(json);
 }
+
+extension CartItemX on CartItem {
+  double get totalPrice => price * quantity;
+}

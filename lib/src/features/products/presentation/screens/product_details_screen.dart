@@ -12,6 +12,7 @@ import '../../../../constants/app_sizes.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
+import '../../../cart/domain/cart_model.dart';
 import '../../../cart/presentation/providers/shopping_cart_provider.dart';
 import '../../domain/product_model.dart';
 import '../providers/product_details_provider.dart';
@@ -26,7 +27,6 @@ class ProductDetailsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         leading: const AppBackButton(),
         title: Text('Product Details'.hardcoded),
         backgroundColor: const Color(0xffECDEDB).hardcodedColor,
@@ -69,7 +69,7 @@ class _QuantityModifier extends ConsumerWidget {
     final cartProduct = ref.watch(shoppingCartProvider.notifier).getProductById(id);
     final isInCart = cartProduct != null;
 
-    final totalPrice = isInCart ? cartProduct.quantity * price : price;
+    final totalPrice = isInCart ? cartProduct.totalPrice : price;
 
     return Container(
       height: 90,

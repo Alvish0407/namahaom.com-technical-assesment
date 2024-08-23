@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../common_widgets/app_loader.dart';
 import '../../../../common_widgets/error_retry_button.dart';
+import '../../../../common_widgets/image_container.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/app_assets.dart';
@@ -89,17 +90,13 @@ class _ProductCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                color: const Color(0xffECDEDB).hardcodedColor,
-                child: CachedNetworkImage(
-                  imageUrl: product.thumbnail.toString(),
-                  height: 185,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  placeholder: (context, url) => const AppLoader(),
-                ),
+            ImageContainer(
+              child: CachedNetworkImage(
+                imageUrl: product.thumbnail.toString(),
+                height: 185,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                placeholder: (context, url) => const AppLoader(),
               ),
             ),
             gapH8,
@@ -237,7 +234,7 @@ class _HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         CircleAvatar(
           backgroundColor: const Color(0xffF1F1F1).hardcodedColor,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () => context.pushNamed(AppRoute.cart.name),
             icon: SvgPicture.asset(
               AppIcons.bagFilled,
             ),
