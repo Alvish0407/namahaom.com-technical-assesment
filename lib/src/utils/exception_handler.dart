@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'exception_handler.freezed.dart';
@@ -12,29 +13,32 @@ class AppException with _$AppException implements Exception {
   }) = _AppException;
 }
 
-mixin ExceptionHandlerMixin {
-  Future<T> handleException<T>(Future<T> Function() handler) async {
-    try {
-      return await handler();
-    } catch (err) {
-      String message = '';
+Future<T> handleException<T>(Future<T> Function() handler) async {
+  try {
+    return await handler();
+  } catch (err) {
+    String message = '';
 
-      switch (err.runtimeType) {
-        case const (SocketException):
-          message = 'No network connection';
-          break;
+    switch (err.runtimeType) {
+      case const (SocketException):
+        message = 'No network connection';
+        break;
 
-        case const (DioException):
-          err as DioException;
-          message = err.responseMessage ?? 'Internal Error occurred';
-          break;
+      case const (DioException):
+        err as DioException;
+        message = err.responseMessage ?? 'Internal Error occurred';
+        break;
 
-        default:
-          message = 'Unknown error occurred';
-      }
+      case const (FirebaseAuthException):
+        err as FirebaseAuthException;
+        message = err.message ?? "Authentication failed";
+        break;
 
-      throw AppException(message: message);
+      default:
+        message = 'Unknown error occurred';
     }
+
+    throw AppException(message: message);
   }
 }
 
