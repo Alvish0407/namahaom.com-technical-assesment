@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,11 +12,12 @@ import '../../../../constants/app_sizes.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
+import '../../../cart/presentation/providers/shopping_cart_provider.dart';
 import '../../domain/product_model.dart';
 import '../providers/product_details_provider.dart';
 
 class ProductDetailsScreen extends ConsumerWidget {
-  final String id;
+  final int id;
   const ProductDetailsScreen({super.key, required this.id});
 
   @override
@@ -48,18 +50,30 @@ class ProductDetailsScreen extends ConsumerWidget {
           );
         },
       ),
-      bottomNavigationBar: const SafeArea(child: _QuantityModifier()),
+      bottomNavigationBar: SafeArea(
+        child: _QuantityModifier(id, price: productAsync.valueOrNull?.price ?? 0.0),
+      ),
     );
   }
 }
 
-class _QuantityModifier extends StatelessWidget {
-  const _QuantityModifier();
+class _QuantityModifier extends ConsumerWidget {
+  final int id;
+  final double price;
+  const _QuantityModifier(this.id, {required this.price});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(shoppingCartProvider);
+
+    final cartProduct = ref.watch(shoppingCartProvider.notifier).getProductById(id);
+    final isInCart = cartProduct != null;
+
+    final totalPrice = isInCart ? cartProduct.quantity * price : price;
+
     return Container(
-      padding: const EdgeInsets.all(Sizes.p20),
+      height: 90,
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.p20),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
         border: const Border(top: BorderSide(color: Color(0xffE4E3E3))),
@@ -83,25 +97,124 @@ class _QuantityModifier extends StatelessWidget {
                   'Total Price'.hardcoded,
                   style: TextStyle(color: context.appColors.onSurface2),
                 ),
-                Text(r'$34'.hardcoded, style: const TextStyle(fontSize: 16).medium),
+                Text(
+                  '\$$totalPrice',
+                  style: const TextStyle(fontSize: 16).medium,
+                ),
               ],
             ),
           ),
           gapW20,
-          AppButton(
-            width: 200,
-            onPressed: () {},
-            label: 'Add to cart'.hardcoded,
-            leading: Padding(
-              padding: const EdgeInsets.only(right: Sizes.p8),
-              child: SvgPicture.asset(
-                AppIcons.bagFilled,
-                colorFilter: ColorFilter.mode(context.colorScheme.surface, BlendMode.srcIn),
-              ),
-            ),
-          ),
+          isInCart
+              ? Row(
+                  children: [
+                    _DecrementQuantity(id),
+                    gapW8,
+                    Text(
+                      cartProduct.quantity.toString(),
+                      style: const TextStyle(fontSize: 20).medium,
+                    ),
+                    gapW8,
+                    _IncrementQuantity(id),
+                  ],
+                )
+              : _AddToCart(id),
         ],
       ),
+    );
+  }
+}
+
+class _AddToCart extends HookConsumerWidget {
+  final int productId;
+  const _AddToCart(this.productId);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoading = useState(false);
+    final isDisabled = isLoading.value;
+
+    return AppButton(
+      width: 200,
+      isLoading: isLoading.value,
+      onPressed: () async {
+        if (isDisabled) return;
+
+        isLoading.value = true;
+        await ref.read(shoppingCartProvider.notifier).addProduct(productId);
+        isLoading.value = false;
+      },
+      label: 'Add to cart'.hardcoded,
+      leading: Padding(
+        padding: const EdgeInsets.only(right: Sizes.p8),
+        child: SvgPicture.asset(
+          AppIcons.bagFilled,
+          colorFilter: ColorFilter.mode(context.colorScheme.surface, BlendMode.srcIn),
+        ),
+      ),
+    );
+  }
+}
+
+class _DecrementQuantity extends HookConsumerWidget {
+  final int productId;
+  const _DecrementQuantity(this.productId);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoading = useState(false);
+    final isDisabled = isLoading.value;
+
+    return IconButton(
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(const Color(0xffEDEDED).hardcodedColor),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
+      onPressed: isDisabled
+          ? null
+          : () async {
+              isLoading.value = true;
+              await ref.read(shoppingCartProvider.notifier).minusQuantity(productId);
+              isLoading.value = false;
+            },
+      icon: isLoading.value
+          ? AppButton.loader(context.textTheme.bodyLarge!.color!)
+          : SvgPicture.asset(AppIcons.minus),
+    );
+  }
+}
+
+class _IncrementQuantity extends HookConsumerWidget {
+  final int productId;
+  const _IncrementQuantity(this.productId);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoading = useState(false);
+    final isDisabled = isLoading.value;
+
+    return IconButton(
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(context.colorScheme.primary),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
+      onPressed: isDisabled
+          ? null
+          : () async {
+              isLoading.value = true;
+              await ref.read(shoppingCartProvider.notifier).addQuantity(productId);
+              isLoading.value = false;
+            },
+      icon: isLoading.value
+          ? AppButton.loader(context.colorScheme.onPrimary)
+          : SvgPicture.asset(
+              AppIcons.add,
+              colorFilter: ColorFilter.mode(context.colorScheme.onPrimary, BlendMode.srcIn),
+            ),
     );
   }
 }

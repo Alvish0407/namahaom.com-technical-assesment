@@ -6,7 +6,7 @@ part of 'product_details_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$productDetailsHash() => r'20fb0a21b6d7150811d4b619181ec289288bf008';
+String _$productDetailsHash() => r'8f087951ea39d1600ae7e90a7e34021d91600594';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 
 abstract class _$ProductDetails
     extends BuildlessAutoDisposeAsyncNotifier<Product> {
-  late final String id;
+  late final int id;
 
   FutureOr<Product> build({
-    required String id,
+    required int id,
   });
 }
 
@@ -49,7 +49,7 @@ class ProductDetailsFamily extends Family<AsyncValue<Product>> {
 
   /// See also [ProductDetails].
   ProductDetailsProvider call({
-    required String id,
+    required int id,
   }) {
     return ProductDetailsProvider(
       id: id,
@@ -85,7 +85,7 @@ class ProductDetailsProvider
     extends AutoDisposeAsyncNotifierProviderImpl<ProductDetails, Product> {
   /// See also [ProductDetails].
   ProductDetailsProvider({
-    required String id,
+    required int id,
   }) : this._internal(
           () => ProductDetails()..id = id,
           from: productDetailsProvider,
@@ -110,7 +110,7 @@ class ProductDetailsProvider
     required this.id,
   }) : super.internal();
 
-  final String id;
+  final int id;
 
   @override
   FutureOr<Product> runNotifierBuild(
@@ -159,7 +159,7 @@ class ProductDetailsProvider
 
 mixin ProductDetailsRef on AutoDisposeAsyncNotifierProviderRef<Product> {
   /// The parameter `id` of this provider.
-  String get id;
+  int get id;
 }
 
 class _ProductDetailsProviderElement
@@ -168,7 +168,7 @@ class _ProductDetailsProviderElement
   _ProductDetailsProviderElement(super.provider);
 
   @override
-  String get id => (origin as ProductDetailsProvider).id;
+  int get id => (origin as ProductDetailsProvider).id;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

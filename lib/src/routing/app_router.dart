@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../features/authentication/data/firebase_auth_repository.dart';
 import '../features/authentication/presentation/signin_screen.dart';
 import '../features/authentication/presentation/signup_screen.dart';
+import '../features/cart/presentation/screens/cart_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/products/presentation/screens/product_details_screen.dart';
 import 'go_router_refresh_stream.dart';
@@ -83,8 +84,15 @@ GoRouter goRouter(GoRouterRef ref) {
         path: '/product-details/:id',
         name: AppRoute.productDetails.name,
         pageBuilder: (context, state) {
-          final id = state.pathParameters['id'];
+          final id = int.tryParse(state.pathParameters['id'] ?? '-1');
           return MaterialPage<dynamic>(child: ProductDetailsScreen(id: id!));
+        },
+      ),
+      GoRoute(
+        path: '/cart',
+        name: AppRoute.cart.name,
+        pageBuilder: (context, state) {
+          return const MaterialPage<dynamic>(child: CartScreen());
         },
       ),
     ],

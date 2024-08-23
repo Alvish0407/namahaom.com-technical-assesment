@@ -9,7 +9,7 @@ part 'product_details_provider.g.dart';
 @riverpod
 class ProductDetails extends _$ProductDetails {
   @override
-  Future<Product> build({required String id}) {
+  Future<Product> build({required int id}) {
     ref.cacheFor(const Duration(minutes: 1));
     return ref.watch(productRepositoryProvider).getProductById(id: id);
   }

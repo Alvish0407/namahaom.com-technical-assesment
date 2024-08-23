@@ -25,7 +25,7 @@ class ProductRepository {
     );
   }
 
-  Future<Product> getProductById({CancelToken? cancelToken, required String id}) async {
+  Future<Product> getProductById({CancelToken? cancelToken, required int id}) async {
     return remoteProductDatasource.getProductById(id: id, cancelToken: cancelToken);
   }
 
