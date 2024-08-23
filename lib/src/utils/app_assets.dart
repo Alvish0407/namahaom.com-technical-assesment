@@ -19,4 +19,5 @@ class AppIcons {
   static const String star = '$path/star.svg';
   static const String add = '$path/add.svg';
   static const String minus = '$path/minus.svg';
+  static const String location = '$path/location.svg';
 }

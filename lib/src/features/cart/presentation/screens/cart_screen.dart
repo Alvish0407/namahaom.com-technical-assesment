@@ -2,14 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../common_widgets/app_back_button.dart';
 import '../../../../common_widgets/app_button.dart';
 import '../../../../common_widgets/app_loader.dart';
+import '../../../../common_widgets/bottombar_button_container.dart';
 import '../../../../common_widgets/error_retry_button.dart';
 import '../../../../common_widgets/image_container.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../../../routing/app_router.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
@@ -69,18 +72,11 @@ class _CartSummary extends ConsumerWidget {
     final discountedTotal = cart?.discountedTotal ?? 0; // Total after discount
     final discount = subTotal - discountedTotal; // Discount amount
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.p16, vertical: Sizes.p8),
-      decoration: BoxDecoration(
-        color: context.colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(Sizes.p16)),
-        border: Border(top: BorderSide(color: const Color(0xffE6E6E6).hardcodedColor)),
-      ),
+    return BottombarButtonContainer(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          gapH12,
           _textTile("Sub-Total", '\$${subTotal.toStringAsFixed(2)}'),
           gapH8,
           _textTile("Discount", '-\$${discount.toStringAsFixed(2)}'),
@@ -88,9 +84,9 @@ class _CartSummary extends ConsumerWidget {
           _textTile("Total Cost", '\$${discountedTotal.toStringAsFixed(2)}'),
           gapH24,
           AppButton(
-            onPressed: () {},
             width: double.infinity,
             label: 'Proceed to Checkout'.hardcoded,
+            onPressed: () => context.pushNamed(AppRoute.selectShippingAddress.name),
           ),
         ],
       ),

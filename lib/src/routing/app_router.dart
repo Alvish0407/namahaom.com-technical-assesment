@@ -6,6 +6,9 @@ import '../features/authentication/data/firebase_auth_repository.dart';
 import '../features/authentication/presentation/signin_screen.dart';
 import '../features/authentication/presentation/signup_screen.dart';
 import '../features/cart/presentation/screens/cart_screen.dart';
+import '../features/checkout/presentation/screens/order_summary_screen.dart';
+import '../features/checkout/presentation/screens/payment_method_screen.dart';
+import '../features/checkout/presentation/screens/select_shipping_address_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/products/presentation/screens/product_details_screen.dart';
 import 'go_router_refresh_stream.dart';
@@ -19,6 +22,9 @@ enum AppRoute {
   home,
   cart,
   productDetails,
+  selectShippingAddress,
+  paymentMethod,
+  orderSummary,
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -94,6 +100,29 @@ GoRouter goRouter(GoRouterRef ref) {
         pageBuilder: (context, state) {
           return const MaterialPage<dynamic>(child: CartScreen());
         },
+        routes: [
+          GoRoute(
+            path: 'select-shipping-address',
+            name: AppRoute.selectShippingAddress.name,
+            pageBuilder: (context, state) {
+              return const MaterialPage<dynamic>(child: SelectShippingAddressScreen());
+            },
+          ),
+          GoRoute(
+            path: 'payment-method',
+            name: AppRoute.paymentMethod.name,
+            pageBuilder: (context, state) {
+              return const MaterialPage<dynamic>(child: PaymentMethodScreen());
+            },
+          ),
+          GoRoute(
+            path: 'order-summary',
+            name: AppRoute.orderSummary.name,
+            pageBuilder: (context, state) {
+              return const MaterialPage<dynamic>(child: OrderSummaryScreen());
+            },
+          ),
+        ],
       ),
     ],
   );
