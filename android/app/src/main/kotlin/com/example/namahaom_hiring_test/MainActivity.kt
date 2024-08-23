@@ -1,4 +1,4 @@
-package com.example.namahaom_hiring_test
+package in.alvish.eComm
 
 import io.flutter.embedding.android.FlutterActivity
 
