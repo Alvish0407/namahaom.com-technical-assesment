@@ -55,6 +55,8 @@ abstract class AppTheme {
         contentPadding: const EdgeInsets.symmetric(horizontal: Sizes.p20, vertical: Sizes.p12),
       ),
       appBarTheme: AppBarTheme(
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.white,
         titleTextStyle: const TextStyle(fontSize: 20, color: Colors.white).bold,
       ),
       filledButtonTheme: FilledButtonThemeData(

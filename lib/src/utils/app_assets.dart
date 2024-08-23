@@ -13,4 +13,7 @@ class AppIcons {
   static const String check = '$path/check.svg';
   static const String cross = '$path/cross.svg';
   static const String info = '$path/info.svg';
+  static const String bagFilled = '$path/bag-filled.svg';
+  static const String locationFilled = '$path/location-filled.svg';
+  static const String search = '$path/search.svg';
 }
