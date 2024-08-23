@@ -1,15 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../features/cart/domain/cart_model.dart';
+
 part 'secure_storage.g.dart';
 
-enum SecureStorageKey {
-  loginDetails,
-}
+enum SecureStorageKey { cart }
 
 @riverpod
 Future<SecureStorage> secureStorage(SecureStorageRef ref) =>
-    SecureStorage.getInstance(keys: {SecureStorageKey.loginDetails});
+    SecureStorage.getInstance(keys: {SecureStorageKey.cart});
 
 class SecureStorage {
   SecureStorage._(this._flutterSecureStorage, this._cache);
@@ -44,12 +46,12 @@ class SecureStorage {
   }
 }
 
-// extension LoginDetailsX on SecureStorage {
-//   LoginDetails? get loginDetails {
-//     final loginDetailsStr = get(SecureStorageKey.loginDetails);
-//     if (loginDetailsStr != null) {
-//       return LoginDetails.fromJson(jsonDecode(loginDetailsStr));
-//     }
-//     return null;
-//   }
-// }
+extension SecureStorageX on SecureStorage {
+  Cart? get getDecodedCart {
+    final cartDetailsStr = get(SecureStorageKey.cart);
+    if (cartDetailsStr != null) {
+      return Cart.fromJson(jsonDecode(cartDetailsStr));
+    }
+    return null;
+  }
+}

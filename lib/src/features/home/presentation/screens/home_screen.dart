@@ -12,6 +12,7 @@ import '../../../../routing/app_router.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
+import '../../../cart/presentation/providers/shopping_cart_provider.dart';
 import '../../../products/domain/product_model.dart';
 import '../../../products/presentation/providers/products_provider.dart';
 import '../../../products/presentation/providers/selected_category_provider.dart';
@@ -193,7 +194,7 @@ class _Categories extends HookConsumerWidget {
 class _HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const _HomeAppBar();
 
-  final bottomHeight = 55.0;
+  final bottomHeight = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -230,41 +231,55 @@ class _HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ),
-      actions: [
-        CircleAvatar(
-          backgroundColor: const Color(0xffF1F1F1).hardcodedColor,
-          child: IconButton(
-            onPressed: () => context.pushNamed(AppRoute.cart.name),
-            icon: SvgPicture.asset(
-              AppIcons.bagFilled,
-            ),
-          ),
-        ),
-        gapW16,
-      ],
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(bottomHeight),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: "Search ".hardcoded,
-              prefixIcon: UnconstrainedBox(
-                child: SvgPicture.asset(
-                  AppIcons.search,
-                  colorFilter: ColorFilter.mode(
-                    context.colorScheme.primary,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      actions: const [_CartIcon(), gapW16],
+      // bottom: PreferredSize(
+      //   preferredSize: Size.fromHeight(bottomHeight),
+      //   child: Padding(
+      //     padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
+      //     child: TextField(
+      //       decoration: InputDecoration(
+      //         hintText: "Search ".hardcoded,
+      //         prefixIcon: UnconstrainedBox(
+      //           child: SvgPicture.asset(
+      //             AppIcons.search,
+      //             colorFilter: ColorFilter.mode(
+      //               context.colorScheme.primary,
+      //               BlendMode.srcIn,
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight + bottomHeight);
+}
+
+class _CartIcon extends ConsumerWidget {
+  const _CartIcon();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cart = ref.watch(shoppingCartProvider);
+
+    final totalProducts = cart.valueOrNull?.totalProducts;
+    final isLabelVisible = totalProducts != null && totalProducts > 0;
+
+    return CircleAvatar(
+      backgroundColor: const Color(0xffF1F1F1).hardcodedColor,
+      child: IconButton(
+        onPressed: () => context.pushNamed(AppRoute.cart.name),
+        icon: Badge.count(
+          offset: const Offset(8, -8),
+          count: totalProducts ?? 0,
+          isLabelVisible: isLabelVisible,
+          child: SvgPicture.asset(AppIcons.bagFilled),
+        ),
+      ),
+    );
+  }
 }

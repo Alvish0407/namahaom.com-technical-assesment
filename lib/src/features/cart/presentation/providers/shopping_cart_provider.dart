@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../services/secure_storage.dart';
 import '../../../../utils/exception_handler.dart';
 import '../../../../utils/extensions.dart';
 import '../../data/repositories/cart_repository.dart';
@@ -12,7 +13,10 @@ part 'shopping_cart_provider.g.dart';
 class ShoppingCart extends _$ShoppingCart {
   @override
   Future<Cart> build() {
-    return Future.value(const Cart());
+    final secureStorage = ref.read(secureStorageProvider).requireValue;
+    final cart = secureStorage.getDecodedCart ?? const Cart();
+
+    return Future.value(cart);
   }
 
   List<PostCartProduct> _toPostCartProducts(List<CartItem>? cartItems) {
