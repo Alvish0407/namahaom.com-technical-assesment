@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "746689376957",
+    "project_id": "namahaom-hiring-test",
+    "storage_bucket": "namahaom-hiring-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746689376957:android:2572c54db86323bf587dd4",
+        "android_client_info": {
+          "package_name": "in.alvish.eComm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBjpiF_9NYlfj6PtGcgH8mW1QcUoACxDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
