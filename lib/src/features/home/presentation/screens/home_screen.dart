@@ -60,16 +60,13 @@ class _ProductsGrid extends ConsumerWidget {
             itemCount: products.length,
             padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              childAspectRatio: 0.72,
+              childAspectRatio: 0.65,
               maxCrossAxisExtent: 225,
               mainAxisSpacing: Sizes.p16,
               crossAxisSpacing: Sizes.p16,
             ),
             itemBuilder: (context, index) {
-              return _ProductCard(products[index]).animate(
-                delay: AppAnimation.delay * index,
-                effects: AppAnimation.transitionIn,
-              );
+              return _ProductCard(products[index]).animate(effects: AppAnimation.transitionIn);
             },
           ),
         );
