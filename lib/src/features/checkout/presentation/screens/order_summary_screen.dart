@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../common_widgets/app_button.dart';
 import '../../../../common_widgets/bottombar_button_container.dart';
 import '../../../../common_widgets/image_container.dart';
+import '../../../../constants/app_animation.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/app_theme.dart';
@@ -62,14 +64,17 @@ class OrderSummaryScreen extends ConsumerWidget {
               ),
               if (orderSummary.shippingAddress != null) ...[
                 divider,
-                _ShippingDetails(orderSummary.shippingAddress!),
+                _ShippingDetails(orderSummary.shippingAddress!).animate(
+                  delay: AppAnimation.delay * 2,
+                  effects: AppAnimation.transitionIn,
+                ),
               ],
               if (orderSummary.paymentMethod != null) ...[
                 divider,
-                _PaymentDetails(orderSummary.paymentMethod!)
+                _PaymentDetails(orderSummary.paymentMethod!),
               ],
               gapH16,
-            ],
+            ].animateList(),
           ),
         ),
       ),

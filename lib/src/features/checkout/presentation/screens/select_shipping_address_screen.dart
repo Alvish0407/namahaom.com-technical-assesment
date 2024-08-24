@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import '../../../../common_widgets/app_button.dart';
 import '../../../../common_widgets/app_loader.dart';
 import '../../../../common_widgets/bottombar_button_container.dart';
 import '../../../../common_widgets/error_retry_button.dart';
+import '../../../../constants/app_animation.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/app_assets.dart';
@@ -76,6 +78,9 @@ class SelectShippingAddressScreen extends HookConsumerWidget {
                     groupValue: selectedAddress.value,
                   ),
                 ],
+              ).animate(
+                delay: AppAnimation.delay * index,
+                effects: AppAnimation.transitionIn,
               );
             },
             separatorBuilder: (BuildContext context, int index) {

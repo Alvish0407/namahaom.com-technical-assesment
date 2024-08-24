@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/app_button.dart';
 import '../../../../common_widgets/bottombar_button_container.dart';
+import '../../../../constants/app_animation.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/app_assets.dart';
@@ -36,7 +37,7 @@ class PaymentSuccessScreen extends StatelessWidget {
               'Thank you for your purchase.'.hardcoded,
               style: TextStyle(fontSize: 14, color: context.appColors.onSurface2),
             ),
-          ],
+          ].animateList(),
         ),
       ),
       bottomNavigationBar: BottombarButtonContainer(

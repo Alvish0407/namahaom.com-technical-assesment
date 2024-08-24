@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +9,7 @@ import '../../../../common_widgets/app_loader.dart';
 import '../../../../common_widgets/cart_button.dart';
 import '../../../../common_widgets/error_retry_button.dart';
 import '../../../../common_widgets/image_container.dart';
+import '../../../../constants/app_animation.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../services/secure_storage.dart';
@@ -64,7 +66,10 @@ class _ProductsGrid extends ConsumerWidget {
               crossAxisSpacing: Sizes.p16,
             ),
             itemBuilder: (context, index) {
-              return _ProductCard(products[index]);
+              return _ProductCard(products[index]).animate(
+                delay: AppAnimation.delay * index,
+                effects: AppAnimation.transitionIn,
+              );
             },
           ),
         );
@@ -183,6 +188,9 @@ class _Categories extends HookConsumerWidget {
                   side: borderSide,
                   borderRadius: BorderRadius.circular(24),
                 ),
+              ).animate(
+                delay: AppAnimation.delay * index,
+                effects: AppAnimation.transitionIn,
               );
             },
             separatorBuilder: (BuildContext context, int index) => gapW8,

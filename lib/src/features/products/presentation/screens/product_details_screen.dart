@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,6 +10,7 @@ import '../../../../common_widgets/app_button.dart';
 import '../../../../common_widgets/app_loader.dart';
 import '../../../../common_widgets/cart_button.dart';
 import '../../../../common_widgets/error_retry_button.dart';
+import '../../../../constants/app_animation.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
@@ -48,13 +50,13 @@ class ProductDetailsScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-            ],
+            ].animateList(),
           );
         },
       ),
       bottomNavigationBar: SafeArea(
         child: _QuantityModifier(id, price: productAsync.valueOrNull?.price ?? 0.0),
-      ),
+      ).animate(effects: AppAnimation.transitionIn),
     );
   }
 }

@@ -11,12 +11,12 @@ class MockCheckoutDatasource {
   MockCheckoutDatasource();
 
   Future<List<Address>> getAddresses() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     return _mockAddresses;
   }
 
   Future<List<PaymentMethod>> getPaymentMethods() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     return _mockPaymentMethods;
   }
 }

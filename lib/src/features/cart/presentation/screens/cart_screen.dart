@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,7 @@ import '../../../../common_widgets/app_loader.dart';
 import '../../../../common_widgets/bottombar_button_container.dart';
 import '../../../../common_widgets/error_retry_button.dart';
 import '../../../../common_widgets/image_container.dart';
+import '../../../../constants/app_animation.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/app_assets.dart';
@@ -42,7 +44,10 @@ class CartScreen extends ConsumerWidget {
               itemCount: cart.products.length,
               padding: const EdgeInsetsDirectional.symmetric(vertical: Sizes.p16),
               itemBuilder: (context, index) {
-                return _CartProductTile(cart.products[index]);
+                return _CartProductTile(cart.products[index]).animate(
+                  delay: AppAnimation.delay * index,
+                  effects: AppAnimation.transitionIn,
+                );
               },
               separatorBuilder: (BuildContext context, int index) {
                 return Divider(color: const Color(0xffE6E6E6).hardcodedColor, height: 50);
@@ -53,7 +58,9 @@ class CartScreen extends ConsumerWidget {
       ),
       bottomNavigationBar: cartAsync.mapOrNull(
         data: (cart) {
-          return const SafeArea(child: _CartSummary());
+          return const SafeArea(
+            child: _CartSummary(),
+          ).animate(effects: AppAnimation.transitionIn);
         },
       ),
     );
