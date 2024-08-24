@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/app_button.dart';
 import '../../../../common_widgets/bottombar_button_container.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../../../routing/app_router.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
@@ -39,9 +41,9 @@ class PaymentSuccessScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottombarButtonContainer(
         child: AppButton(
-          onPressed: () {},
           width: double.infinity,
           label: 'View E-Receipt'.hardcoded,
+          onPressed: () => context.pushNamed(AppRoute.orderSummary.name),
         ),
       ),
     );

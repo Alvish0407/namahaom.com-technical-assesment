@@ -16,6 +16,7 @@ import '../../../../routing/app_router.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
+import '../../../checkout/presentation/provider/order_summary_provider.dart';
 import '../../domain/cart_model.dart';
 import '../providers/shopping_cart_provider.dart';
 
@@ -65,25 +66,26 @@ class _CartSummary extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cart = ref.watch(shoppingCartProvider).valueOrNull;
 
-    final subTotal = cart?.total ?? 0; // Total before discount
-    final discountedTotal = cart?.discountedTotal ?? 0; // Total after discount
-    final discount = subTotal - discountedTotal; // Discount amount
-
     return BottombarButtonContainer(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _textTile("Sub-Total", '\$${subTotal.toStringAsFixed(2)}'),
+          _textTile("Sub-Total", '\$${cart?.total.toStringAsFixed(2)}'),
           gapH8,
-          _textTile("Discount", '-\$${discount.toStringAsFixed(2)}'),
+          _textTile("Discount", '-\$${cart?.discount.toStringAsFixed(2)}'),
           Divider(color: const Color(0xffDDDDDD).hardcodedColor, height: 30),
-          _textTile("Total Cost", '\$${discountedTotal.toStringAsFixed(2)}'),
+          _textTile("Total Cost", '\$${cart?.discountedTotal.toStringAsFixed(2)}'),
           gapH24,
           AppButton(
             width: double.infinity,
             label: 'Proceed to Checkout'.hardcoded,
-            onPressed: () => context.pushNamed(AppRoute.selectShippingAddress.name),
+            onPressed: () {
+              // Usually order summary is created from backend, but for this demo we'll just update the cart
+              ref.read(cartOrderSummaryProvider.notifier).updateCart(cart!);
+
+              context.pushNamed(AppRoute.selectShippingAddress.name);
+            },
           ),
         ],
       ),

@@ -14,6 +14,7 @@ import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
 import '../../domain/address_model.dart';
+import '../provider/order_summary_provider.dart';
 import '../provider/shipping_address_provider.dart';
 
 class SelectShippingAddressScreen extends HookConsumerWidget {
@@ -23,6 +24,18 @@ class SelectShippingAddressScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<Address?> selectedAddress = useState<Address?>(null);
     final addressesAsync = ref.watch(shippingAddressProvider);
+
+    void onProceed() {
+      if (selectedAddress.value == null) {
+        context.errorSnackBar('Please select a shipping address'.hardcoded);
+        return;
+      }
+      // Since we don't have a real backend, we'll just update the shipping address and
+      // navigate to the payment method screen
+      ref.read(cartOrderSummaryProvider.notifier).updateShippingAddress(selectedAddress.value!);
+
+      context.pushNamed(AppRoute.paymentMethod.name);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -74,8 +87,8 @@ class SelectShippingAddressScreen extends HookConsumerWidget {
       bottomNavigationBar: BottombarButtonContainer(
         child: AppButton(
           width: double.infinity,
-          label: 'Payment'.hardcoded,
-          onPressed: () => context.pushNamed(AppRoute.paymentMethod.name),
+          label: 'Proceed'.hardcoded,
+          onPressed: onProceed,
         ),
       ),
     );

@@ -10,8 +10,12 @@ import '../../../../common_widgets/bottombar_button_container.dart';
 import '../../../../common_widgets/error_retry_button.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../routing/app_router.dart';
+import '../../../../services/secure_storage.dart';
+import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
+import '../../../cart/presentation/providers/shopping_cart_provider.dart';
 import '../../domain/payment_method_model.dart';
+import '../provider/order_summary_provider.dart';
 import '../provider/payment_methods_provider.dart';
 
 class PaymentMethodScreen extends HookConsumerWidget {
@@ -24,10 +28,23 @@ class PaymentMethodScreen extends HookConsumerWidget {
     final paymentMethodsAsync = ref.watch(paymentMethodsProvider);
 
     Future<void> onConfirmPayment() async {
+      if (selectedPaymentMethod.value == null) {
+        context.errorSnackBar('Please select a payment method'.hardcoded);
+        return;
+      }
+
       isConfirmingPayment.value = true;
       // Simulate payment confirmation
+      final secureStorage = ref.read(secureStorageProvider).requireValue;
       await Future.delayed(const Duration(seconds: 2));
+      // Clear cart after payment
+      await secureStorage.remove(SecureStorageKey.cart);
+      ref.invalidate(shoppingCartProvider);
+
       isConfirmingPayment.value = false;
+
+      // Since we don't have a real payment gateway, we'll just update the payment method and navigate to the success screen
+      ref.read(cartOrderSummaryProvider.notifier).updatePaymentMethod(selectedPaymentMethod.value!);
 
       if (context.mounted) context.pushNamed(AppRoute.paymentSuccess.name);
     }
