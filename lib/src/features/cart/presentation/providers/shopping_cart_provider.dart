@@ -9,7 +9,7 @@ import '../../domain/post_cart_product_model.dart';
 
 part 'shopping_cart_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class ShoppingCart extends _$ShoppingCart {
   @override
   Future<Cart> build() {

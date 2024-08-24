@@ -6,11 +6,12 @@ part of 'shopping_cart_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shoppingCartHash() => r'd4c1fe6481c82b9efac0126bc8fb257039142290';
+String _$shoppingCartHash() => r'c4f4e22ba734a9d90f402177a6d947daa800a076';
 
 /// See also [ShoppingCart].
 @ProviderFor(ShoppingCart)
-final shoppingCartProvider = AsyncNotifierProvider<ShoppingCart, Cart>.internal(
+final shoppingCartProvider =
+    AutoDisposeAsyncNotifierProvider<ShoppingCart, Cart>.internal(
   ShoppingCart.new,
   name: r'shoppingCartProvider',
   debugGetCreateSourceHash:
@@ -19,6 +20,6 @@ final shoppingCartProvider = AsyncNotifierProvider<ShoppingCart, Cart>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$ShoppingCart = AsyncNotifier<Cart>;
+typedef _$ShoppingCart = AutoDisposeAsyncNotifier<Cart>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

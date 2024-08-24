@@ -24,4 +24,5 @@ class AppIcons {
   static const String google = '$path/google.svg';
   static const String paypal = '$path/paypal.svg';
   static const String tickCircle = '$path/tick-circle.svg';
+  static const String logout = '$path/logout.svg';
 }

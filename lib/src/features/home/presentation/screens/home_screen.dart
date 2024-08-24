@@ -5,14 +5,16 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../common_widgets/app_loader.dart';
+import '../../../../common_widgets/cart_button.dart';
 import '../../../../common_widgets/error_retry_button.dart';
 import '../../../../common_widgets/image_container.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../routing/app_router.dart';
+import '../../../../services/secure_storage.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_theme.dart';
 import '../../../../utils/extensions.dart';
-import '../../../cart/presentation/providers/shopping_cart_provider.dart';
+import '../../../authentication/data/firebase_auth_repository.dart';
 import '../../../products/domain/product_model.dart';
 import '../../../products/presentation/providers/products_provider.dart';
 import '../../../products/presentation/providers/selected_category_provider.dart';
@@ -231,7 +233,7 @@ class _HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ),
-      actions: const [_CartIcon(), gapW16],
+      actions: const [CartButton(), gapW16, LogoutButton(), gapW16],
       // bottom: PreferredSize(
       //   preferredSize: Size.fromHeight(bottomHeight),
       //   child: Padding(
@@ -259,25 +261,30 @@ class _HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(kToolbarHeight + bottomHeight);
 }
 
-class _CartIcon extends ConsumerWidget {
-  const _CartIcon();
+class LogoutButton extends ConsumerWidget {
+  const LogoutButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cart = ref.watch(shoppingCartProvider);
+    Future<void> onLogout() async {
+      final firebaseAuth = ref.watch(firebaseAuthProvider);
+      // Clear cart on logout
+      final secureStorage = ref.read(secureStorageProvider).requireValue;
+      await secureStorage.remove(SecureStorageKey.cart);
 
-    final totalProducts = cart.valueOrNull?.totalProducts;
-    final isLabelVisible = totalProducts != null && totalProducts > 0;
+      await firebaseAuth.signOut();
+    }
 
     return CircleAvatar(
-      backgroundColor: const Color(0xffF1F1F1).hardcodedColor,
+      backgroundColor: const Color(0xFFFFEFEF).hardcodedColor,
       child: IconButton(
-        onPressed: () => context.pushNamed(AppRoute.cart.name),
-        icon: Badge.count(
-          offset: const Offset(8, -8),
-          count: totalProducts ?? 0,
-          isLabelVisible: isLabelVisible,
-          child: SvgPicture.asset(AppIcons.bagFilled),
+        onPressed: onLogout,
+        icon: SvgPicture.asset(
+          AppIcons.logout,
+          colorFilter: ColorFilter.mode(
+            const Color(0xffE84B51).hardcodedColor,
+            BlendMode.srcIn,
+          ),
         ),
       ),
     );

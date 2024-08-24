@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../common_widgets/app_back_button.dart';
 import '../../../../common_widgets/app_button.dart';
 import '../../../../common_widgets/app_loader.dart';
+import '../../../../common_widgets/cart_button.dart';
 import '../../../../common_widgets/error_retry_button.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../utils/app_assets.dart';
@@ -30,6 +31,7 @@ class ProductDetailsScreen extends ConsumerWidget {
         leading: const AppBackButton(),
         title: Text('Product Details'.hardcoded),
         backgroundColor: const Color(0xffECDEDB).hardcodedColor,
+        actions: const [CartButton(), gapW16],
       ),
       body: productAsync.when(
         loading: () => const Center(child: AppLoader()),

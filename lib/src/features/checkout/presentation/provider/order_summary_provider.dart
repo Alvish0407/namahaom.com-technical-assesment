@@ -7,7 +7,7 @@ import '../../domain/payment_method_model.dart';
 
 part 'order_summary_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class CartOrderSummary extends _$CartOrderSummary {
   @override
   OrderSummary build() {

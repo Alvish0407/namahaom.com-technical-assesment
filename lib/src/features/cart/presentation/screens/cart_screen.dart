@@ -25,6 +25,7 @@ class CartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(cartOrderSummaryProvider);
     final cartAsync = ref.watch(shoppingCartProvider);
 
     return Scaffold(
