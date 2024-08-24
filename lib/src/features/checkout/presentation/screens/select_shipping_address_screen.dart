@@ -71,7 +71,7 @@ class SelectShippingAddressScreen extends HookConsumerWidget {
           );
         },
       ),
-      bottomSheet: BottombarButtonContainer(
+      bottomNavigationBar: BottombarButtonContainer(
         child: AppButton(
           width: double.infinity,
           label: 'Payment'.hardcoded,

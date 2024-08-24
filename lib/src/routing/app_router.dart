@@ -8,6 +8,7 @@ import '../features/authentication/presentation/signup_screen.dart';
 import '../features/cart/presentation/screens/cart_screen.dart';
 import '../features/checkout/presentation/screens/order_summary_screen.dart';
 import '../features/checkout/presentation/screens/payment_method_screen.dart';
+import '../features/checkout/presentation/screens/payment_success_screen.dart';
 import '../features/checkout/presentation/screens/select_shipping_address_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/products/presentation/screens/product_details_screen.dart';
@@ -24,6 +25,7 @@ enum AppRoute {
   productDetails,
   selectShippingAddress,
   paymentMethod,
+  paymentSuccess,
   orderSummary,
 }
 
@@ -113,6 +115,13 @@ GoRouter goRouter(GoRouterRef ref) {
             name: AppRoute.paymentMethod.name,
             pageBuilder: (context, state) {
               return const MaterialPage<dynamic>(child: PaymentMethodScreen());
+            },
+          ),
+          GoRoute(
+            path: 'payment-success',
+            name: AppRoute.paymentSuccess.name,
+            pageBuilder: (context, state) {
+              return const MaterialPage<dynamic>(child: PaymentSuccessScreen());
             },
           ),
           GoRoute(

@@ -26,3 +26,8 @@ final List<Address> _mockAddresses = [
     zip: '45463',
   ),
 ];
+final List<PaymentMethod> _mockPaymentMethods = [
+  const PaymentMethod(name: "Paypal", icon: AppIcons.paypal),
+  const PaymentMethod(name: "Google Pay", icon: AppIcons.google),
+  const PaymentMethod(name: "Apple Pay", icon: AppIcons.apple),
+];

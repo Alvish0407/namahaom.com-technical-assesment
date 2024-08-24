@@ -20,4 +20,8 @@ class AppIcons {
   static const String add = '$path/add.svg';
   static const String minus = '$path/minus.svg';
   static const String location = '$path/location.svg';
+  static const String apple = '$path/apple.svg';
+  static const String google = '$path/google.svg';
+  static const String paypal = '$path/paypal.svg';
+  static const String tickCircle = '$path/tick-circle.svg';
 }

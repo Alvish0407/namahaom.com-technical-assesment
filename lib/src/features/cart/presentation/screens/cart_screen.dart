@@ -38,10 +38,7 @@ class CartScreen extends ConsumerWidget {
           data: (cart) {
             return ListView.separated(
               itemCount: cart.products.length,
-              padding: const EdgeInsetsDirectional.only(
-                top: Sizes.p16,
-                bottom: 250,
-              ),
+              padding: const EdgeInsetsDirectional.symmetric(vertical: Sizes.p16),
               itemBuilder: (context, index) {
                 return _CartProductTile(cart.products[index]);
               },
@@ -52,7 +49,7 @@ class CartScreen extends ConsumerWidget {
           },
         ),
       ),
-      bottomSheet: cartAsync.mapOrNull(
+      bottomNavigationBar: cartAsync.mapOrNull(
         data: (cart) {
           return const SafeArea(child: _CartSummary());
         },
