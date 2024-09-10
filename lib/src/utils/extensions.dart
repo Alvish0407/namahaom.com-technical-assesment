@@ -46,7 +46,7 @@ extension CacheForExtension on AutoDisposeRef<Object?> {
 
   /// Purpose: Keep the provider alive for [duration] after it has been canceled.
   /// If the provider is listened again, the timer is canceled and link will be closed.
-  void cacheAfterCanceledFor(Duration duration) {
+  void cacheOnCanceledFor(Duration duration) {
     Timer? timer;
     KeepAliveLink? link;
 

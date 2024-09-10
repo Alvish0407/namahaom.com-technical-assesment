@@ -10,7 +10,7 @@ part 'product_details_provider.g.dart';
 class ProductDetails extends _$ProductDetails {
   @override
   Future<Product> build({required int id}) {
-    ref.cacheAfterCanceledFor(const Duration(seconds: 30));
+    ref.cacheOnCanceledFor(const Duration(seconds: 30));
     return ref.watch(productRepositoryProvider).getProductById(id: id);
   }
 }
