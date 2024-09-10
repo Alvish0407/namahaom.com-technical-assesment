@@ -25,7 +25,7 @@ class Products extends _$Products {
   /// Passing [null] will return all products
   @override
   Future<List<Product>> build({Category? category}) {
-    ref.cacheFor(const Duration(minutes: 1));
+    ref.cacheAfterCanceledFor(const Duration(seconds: 30));
     if (category == null || category == Category.all()) {
       return ref.watch(productRepositoryProvider).getProducts();
     } else {
